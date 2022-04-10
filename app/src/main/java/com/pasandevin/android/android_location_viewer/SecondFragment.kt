@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.pasandevin.android.android_location_viewer.database.AppDatabase
 import com.pasandevin.android.android_location_viewer.databinding.FragmentSecondBinding
+import com.pasandevin.android.android_location_viewer.model.Location
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -32,9 +34,26 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonSecond.setOnClickListener {
+        binding.inputlocationname.setOnClickListener {
+            binding.inputlocationname.text.clear()
+        }
+        binding.inputlattitude.setOnClickListener {
+            binding.inputlattitude.text.clear()
+        }
+        binding.inputlongitude.setOnClickListener {
+            binding.inputlongitude.text.clear()
+        }
+
+        binding.submitbutton.setOnClickListener {
+            val locationName = binding.inputlocationname.text.toString()
+            val lattitude = binding.inputlattitude.text.toString().toDouble()
+            val longitude = binding.inputlongitude.text.toString().toDouble()
+            val location = Location(locationName, lattitude, longitude)
+            val db = AppDatabase.getDatabase(view.context)
+            db.photoDao().insert(location)
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
+
     }
 
     override fun onDestroyView() {
