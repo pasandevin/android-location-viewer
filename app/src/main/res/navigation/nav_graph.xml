@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_MapsFragment"
+            app:destination="@id/MapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +27,12 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MapsFragment"
+        android:name="com.pasandevin.android.android_location_viewer.MapsFragment"
+        android:label="@string/maps_fragment_label"
+        tools:layout="@layout/fragment_maps">
     </fragment>
 </navigation>

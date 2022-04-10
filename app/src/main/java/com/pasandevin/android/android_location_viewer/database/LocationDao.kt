@@ -12,4 +12,7 @@ interface LocationDao {
 
     @Insert
     fun insert(vararg location: Location)
+
+    @Query("SELECT * FROM location WHERE name = :locationName")
+    fun getLocationByName(locationName: String): Location
 }

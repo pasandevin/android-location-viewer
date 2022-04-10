@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.fragment.findNavController
+import com.pasandevin.android.android_location_viewer.database.AppDatabase
 import com.pasandevin.android.android_location_viewer.databinding.ActivityMainBinding
 import com.pasandevin.android.android_location_viewer.databinding.FragmentFirstBinding
 
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener {
+
             findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_FirstFragment_to_SecondFragment)
+
         }
 
     }

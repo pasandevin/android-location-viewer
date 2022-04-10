@@ -8,7 +8,7 @@ import com.pasandevin.android.android_location_viewer.model.Location
 
 @Database(entities = [Location::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun photoDao(): LocationDao
+    abstract fun LocationDao(): LocationDao
 
     companion object {
         @Volatile

@@ -1,15 +1,20 @@
 package com.pasandevin.android.android_location_viewer
 
+
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.pasandevin.android.android_location_viewer.R
+import com.pasandevin.android.android_location_viewer.adapter.LocationAdapter
 import com.pasandevin.android.android_location_viewer.database.AppDatabase
 import com.pasandevin.android.android_location_viewer.databinding.FragmentFirstBinding
+import com.pasandevin.android.android_location_viewer.listener.RecyclerItemClickListener
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -35,34 +40,25 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // RecyclerView //
-        binding.recyclerview.layoutManager = LinearLayoutManager(view.context)
         val db = AppDatabase.getDatabase(view.context)
-        db.locationDao().getAll().observe(viewLifecycleOwner, {
-            Log.d("FirstFragment", "onViewCreated: ${it.size}")
-            binding.recyclerview.adapter = LocationAdapter(it)
-        })
-//        val photos = userAPIService.getPhotos()
-//        Log.i("beforeenqueing", "before enqueing")
-//        photos.enqueue(object:Callback<List<Photo>> {
-//            override fun onResponse(call: Call<List<Photo>>, response: Response<List<Photo>>) {
-//                val photos = response.body()
-//                //Database//
-//                val db = AppDatabase.getDatabase(view.context)
-//                photos?.forEach() {
-//                    db.photoDao().insert(it)
-//                }
-//                //Database//
-//                val adapter = PhotoAdapter(photos!!)
-////                binding.recyclerview.adapter = adapter
-//            }
-//
-//            override fun onFailure(call: Call<List<Photo>>, t: Throwable) {
-//                TODO("Not yet implemented")
-//            }
+        binding.recyclerview.layoutManager = LinearLayoutManager(view.context)
+        binding.recyclerview.adapter = LocationAdapter(db.LocationDao().getAll())
 
-//        })
-        // RecyclerView //
+        val recyclerView: RecyclerView = binding.recyclerview
+        recyclerView.addOnItemTouchListener(
+            RecyclerItemClickListener(
+                context,
+                recyclerView,
+                object : RecyclerItemClickListener.OnItemClickListener {
+                    override fun onItemClick(view: View?, position: Int) {
+                        findNavController().navigate(R.id.action_FirstFragment_to_MapsFragment)
+                    }
+
+                    override fun onLongItemClick(view: View?, position: Int) {
+                        // do whatever
+                    }
+                })
+        )
     }
 
     override fun onDestroyView() {
