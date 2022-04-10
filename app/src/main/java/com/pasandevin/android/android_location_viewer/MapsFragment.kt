@@ -1,30 +1,36 @@
 package com.pasandevin.android.android_location_viewer
 
-import androidx.fragment.app.Fragment
-
+import android.R.attr.defaultValue
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.pasandevin.android.android_location_viewer.database.AppDatabase
-import com.pasandevin.android.android_location_viewer.model.Location
+
 
 class MapsFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
-        val locationName = "test2"
-        val db = AppDatabase.getDatabase(this.context!!)
-        val location = db.LocationDao().getLocationByName(locationName)
-        val sydney = LatLng(location.latitude, location.longitude)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+
+        var sharedPref : SharedPreferences = activity!!.getPreferences(Context.MODE_PRIVATE)
+        val locationLat = sharedPref.getFloat("latitudeKey", 44.34f)
+        val locationLng = sharedPref.getFloat("longitudeKey", 32.34f)
+        val locationName = sharedPref.getString("nameKey", "location")
+        val location = LatLng(locationLat.toDouble(), locationLng.toDouble())
+
+        googleMap.addMarker(MarkerOptions().position(location).title(locationName))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+
+
     }
 
     override fun onCreateView(

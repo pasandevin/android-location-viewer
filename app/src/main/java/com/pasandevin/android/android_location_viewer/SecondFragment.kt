@@ -45,19 +45,14 @@ class SecondFragment : Fragment() {
         }
 
         binding.submitbutton.setOnClickListener {
-//            val locationName = binding.inputlocationname.text.toString()
-//            val lattitude = binding.inputlattitude.text.toString().toDouble()
-//            val longitude = binding.inputlongitude.text.toString().toDouble()
-//            val location = Location(locationName, lattitude, longitude)
-
-            //testing
-            val locationName = "test2"
-            val lattitude = 0.0
-            val longitude = 0.0
+            val locationName = binding.inputlocationname.text.toString()
+            val lattitude = binding.inputlattitude.text.toString().toDouble()
+            val longitude = binding.inputlongitude.text.toString().toDouble()
             val location = Location(locationName, lattitude, longitude)
-            //testing
+
             val db = AppDatabase.getDatabase(view.context)
             db.LocationDao().insert(location)
+
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
 
